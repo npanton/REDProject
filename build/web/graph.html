@@ -1,0 +1,35 @@
+
+<html>
+    <head>
+        <title>Smoothie Chart Example</title>
+        <script src="javascripts/smoothie.js"></script>
+        <script src="javascripts/jquery-1.7.1.min.js"></script>
+        
+    </head>
+    <body>
+        
+        <h1>Smoothie Example</h1>
+        
+        <canvas id="mycanvas" width="800" height="500"></canvas>
+        
+        <script type="text/javascript">
+
+          // Random data
+          var line1 = new TimeSeries();
+                        var rate;
+
+          setInterval(function() {
+                  $.get("smoothie", function (data){
+            rate = data["rate"];	
+        });
+    
+            line1.append(new Date().getTime(), rate);
+          }, 1000);
+
+          var smoothie = new SmoothieChart({ grid: { strokeStyle: 'rgb(125, 0, 0)', fillStyle: 'rgb(60, 0, 0)', lineWidth: 1, millisPerLine: 250, verticalSections: 6 } });
+          smoothie.addTimeSeries(line1, { strokeStyle: 'rgb(0, 255, 0)', fillStyle: 'rgba(0, 255, 0, 0.4)', lineWidth: 3 });
+
+          smoothie.streamTo(document.getElementById("mycanvas"), 1000);
+        </script>  
+    </body>
+</html>
